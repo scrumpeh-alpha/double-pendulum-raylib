@@ -1,6 +1,6 @@
 #include <raylib.h>
 
-int maint() {
+int main() {
     SetTraceLogLevel(LOG_WARNING);
 
     const int screenWidth { 800 };
