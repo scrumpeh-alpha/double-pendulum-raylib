@@ -1,0 +1,10 @@
+-Iinclude 
+-Llib 
+-lraylib 
+-lGL 
+-lm 
+-lpthread 
+-ldl 
+-lrt 
+-lX11 
+-std=c++17
