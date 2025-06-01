@@ -10,5 +10,13 @@ struct PendulumData {
     float mass;
     float radius;
     Color color;
-    Vector2 pos;
 };
+
+
+StateVector operator+(StateVector lhs, const StateVector& rhs); 
+StateVector operator+(StateVector lhs, float rhs);
+StateVector& operator+=(StateVector& lhs, float rhs);
+StateVector operator*(StateVector lhs, float rhs);
+StateVector operator*(float lhs, StateVector rhs);
+StateVector operator/(StateVector lhs, float rhs);
+StateVector operator/(float lhs, StateVector rhs);
