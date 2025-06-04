@@ -5,6 +5,10 @@ project(
     LANGUAGES CXX
 ) # project name
 
+# TODO:
+# Raylib proper fetching
+# RayGUI proper fetching
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

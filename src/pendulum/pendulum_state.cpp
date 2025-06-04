@@ -16,13 +16,13 @@ StateVector operator+(StateVector lhs, float rhs) {
     return lhs;
 }
 
-StateVector& operator+=(StateVector& lhs, float rhs) {
-    lhs.theta1 += rhs;
-    lhs.theta2 += rhs;
-    lhs.omega1 += rhs;
-    lhs.omega2 += rhs;
-    return lhs;
-}
+// StateVector& operator+=(StateVector& lhs, float rhs) {
+//     lhs.theta1 += rhs;
+//     lhs.theta2 += rhs;
+//     lhs.omega1 += rhs;
+//     lhs.omega2 += rhs;
+//     return lhs;
+// }
 
 StateVector operator*(StateVector lhs, float rhs) {
     lhs.theta1 *= rhs;

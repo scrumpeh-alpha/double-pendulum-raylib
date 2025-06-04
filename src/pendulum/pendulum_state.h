@@ -12,8 +12,7 @@ struct PendulumData {
     Color color;
 };
 
-
-StateVector operator+(StateVector lhs, const StateVector& rhs); 
+StateVector operator+(StateVector lhs, const StateVector& rhs);
 StateVector operator+(StateVector lhs, float rhs);
 StateVector& operator+=(StateVector& lhs, float rhs);
 StateVector operator*(StateVector lhs, float rhs);

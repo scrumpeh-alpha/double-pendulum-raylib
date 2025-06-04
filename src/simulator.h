@@ -11,9 +11,9 @@ class Simulator {
     Simulator(DoublePendulum& dp, float timeStep = 0.1, float gravity = 9.8);
     // ~Simulator();
 
-    void updateElements();
-    void drawElements();
+    void updateElements() const;
+    void drawElements() const;
 
-    float getTimeStep();
+    float getTimeStep() const;
     void setTimeStep(float timeStep);
 };
