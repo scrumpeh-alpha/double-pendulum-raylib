@@ -1,5 +1,7 @@
 #include "pendulum/double_pendulum.h"
 #include "pendulum/pendulum_state.h"
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
 #include "simulator.h"
 #include <raylib.h>
 
@@ -20,7 +22,7 @@ int main() {
     StateVector pendulumState { 30, 50, 0, 0 };
     PendulumData pendulum1 { 150, 10, 20, RED };
     PendulumData pendulum2 { 150, 10, 20, BLUE };
-    Vector2 pendulumPivot { screenWidth / 2.0f, screenHeight / 2.0f - 100.0f };
+    Vector2 pendulumPivot { screenWidth / 3.0f, screenHeight / 2.0f - 100.0f };
 
     DoublePendulum doublePendulum { pendulumState, pendulum1, pendulum2, pendulumPivot };
 
@@ -38,7 +40,7 @@ int main() {
         // TraceLog(LOG_DEBUG, "FrameTime: %f", GetFrameTime());
         while (accumulator >= fixedTimeStep) {
             sim.updateElements();
-            accumulator -=  fixedTimeStep;
+            accumulator -= fixedTimeStep;
         }
 
         BeginDrawing();
@@ -46,6 +48,8 @@ int main() {
         ClearBackground(BLACK);
 
         sim.drawElements();
+
+        GuiGroupBox({ screenWidth * 2 / 3.0f, 10.0f, screenWidth / 3.0f, screenHeight - 20.0f }, "Double Pendulum Parameters");
 
         EndDrawing();
     }

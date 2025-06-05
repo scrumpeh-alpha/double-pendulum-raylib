@@ -27,6 +27,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 -Iinclude 
 -Llib 
 -lraylib 
+# -DRAYGUI_IMPLEMENTATION
 -lGL 
 -lm 
 -lpthread 
