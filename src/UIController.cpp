@@ -1,7 +1,7 @@
 #include "UIController.h"
 #include "raygui.h"
 #include "raylib.h"
-#include <cstdio>
+#include <iomanip>
 #include <sstream>
 
 // TODO:
@@ -13,11 +13,18 @@ UIController::UIController(Vector2 anchor, StateVector& pendulumState, PendulumD
     GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
 }
 
-char* floatToChar(float value, int decimalPlaces) {
-    const int bufferSize { 32 };
-    char* buffer = new char[bufferSize];
-    snprintf(buffer, bufferSize, "%.*f", decimalPlaces, value);
-    return buffer;
+// UUSAFE?
+// char* floatToChar(float value, int decimalPlaces) {
+//     const int bufferSize { 32 };
+//     char* buffer = new char[bufferSize];
+//     snprintf(buffer, bufferSize, "%.*f", decimalPlaces, value);
+//     return buffer;
+// }
+
+std::string floatToString(float value, int decimalPlaces) {
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2) << value;
+    return ss.str();
 }
 
 void UIController::drawUIElements() {
@@ -36,18 +43,20 @@ void UIController::drawUIElements() {
     GuiLabel({ p1ControlBounds.x, p1ControlBounds.y, p1ControlBounds.width, 100.0f }, "Pendulum 1");
 
     float verticalGap { 50.0f };
-    char* valueString = floatToChar(m_pendulum1.length, 2);
-    GuiSliderBar({ p1ControlBounds.x + 100, p1ControlBounds.y + verticalGap + 25, p1ControlBounds.width - 200, 25 }, "Length: ", valueString, &m_pendulum1.length, 50, 500);
-    valueString = floatToChar(m_pendulum1.mass, 2);
-    GuiSliderBar({ p1ControlBounds.x + 100, p1ControlBounds.y + 2 * verticalGap + 25, p1ControlBounds.width - 200, 25 }, "Mass: ", valueString, &m_pendulum1.mass, 1, 50);
+
+    std::string valueString { floatToString(m_pendulum1.length, 2) };
+    GuiSliderBar({ p1ControlBounds.x + 100, p1ControlBounds.y + verticalGap + 25, p1ControlBounds.width - 200, 25 }, "Length: ", valueString.c_str(), &m_pendulum1.length, 50, 500);
+
+    valueString = floatToString(m_pendulum1.mass, 2);
+    GuiSliderBar({ p1ControlBounds.x + 100, p1ControlBounds.y + 2 * verticalGap + 25, p1ControlBounds.width - 200, 25 }, "Mass: ", valueString.c_str(), &m_pendulum1.mass, 1, 50);
 
     Rectangle p2ControlBounds { p1ControlBounds.x, p1ControlBounds.height + 50, p1ControlBounds.width, p1ControlBounds.height };
 
     GuiLabel({ p2ControlBounds.x, p2ControlBounds.y, p2ControlBounds.width, 100.0f }, "Pendulum 2");
 
-    valueString = floatToChar(m_pendulum2.length, 2);
-    GuiSliderBar({ p2ControlBounds.x + 100, p2ControlBounds.y + verticalGap + 25, p2ControlBounds.width - 200, 25 }, "Length: ", valueString, &m_pendulum2.length, 50, 500);
-    valueString = floatToChar(m_pendulum2.mass, 2);
-    GuiSliderBar({ p2ControlBounds.x + 100, p2ControlBounds.y + 2 * verticalGap + 25, p2ControlBounds.width - 200, 25 }, "Mass: ", valueString, &m_pendulum2.mass, 1, 50);
+    valueString = floatToString(m_pendulum2.length, 2);
+    GuiSliderBar({ p2ControlBounds.x + 100, p2ControlBounds.y + verticalGap + 25, p2ControlBounds.width - 200, 25 }, "Length: ", valueString.c_str(), &m_pendulum2.length, 50, 500);
 
+    valueString = floatToString(m_pendulum2.mass, 2);
+    GuiSliderBar({ p2ControlBounds.x + 100, p2ControlBounds.y + 2 * verticalGap + 25, p2ControlBounds.width - 200, 25 }, "Mass: ", valueString.c_str(), &m_pendulum2.mass, 1, 50);
 }
