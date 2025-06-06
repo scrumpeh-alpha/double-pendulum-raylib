@@ -14,16 +14,16 @@ StateVector DoublePendulum::phi(const StateVector& state) const {
     float g = gravity;
     float dtheta = state.theta1 - state.theta2;
 
-    StateVector stateCopy { state };
-    stateCopy.theta1 = state.omega1;
-    stateCopy.theta2 = state.omega2;
+    StateVector newState { };
+    newState.theta1 = state.omega1;
+    newState.theta2 = state.omega2;
 
-    stateCopy.omega1 = (-m2 * (l1 * square(state.omega1) * sin(dtheta) * cos(dtheta) + l2 * square(state.omega2) * sin(dtheta)) + g * (-(m1 + m2) * sin(state.theta1) + m2 * cos(dtheta) * sin(state.theta2))) / (m1 * l1 + m2 * l1 * square(sin(dtheta)));
+    newState.omega1 = (-m2 * (l1 * square(state.omega1) * sin(dtheta) * cos(dtheta) + l2 * square(state.omega2) * sin(dtheta)) + g * (-(m1 + m2) * sin(state.theta1) + m2 * cos(dtheta) * sin(state.theta2))) / (m1 * l1 + m2 * l1 * square(sin(dtheta)));
 
-    stateCopy.omega2 =
+    newState.omega2 =
         ((m1 + m2) * l1 * square(state.omega1) * sin(dtheta) + m2 * l2 * square(state.omega2) * sin(dtheta) * cos(dtheta) + (m1 + m2) * g * (sin(state.theta1) * cos(dtheta) - sin(state.theta2))) / (m1 * l2 + m2 * l2 * square(sin(dtheta)));
 
-    return stateCopy;
+    return newState;
 }
 
 StateVector DoublePendulum::rk4Step(const StateVector& state, float dt) const {
@@ -48,16 +48,18 @@ void DoublePendulum::update(float dt) {
     m_pos.second.y = m_pos.first.y + m_p2.length * cos(m_stateVector.theta2);
 }
 
+
+
 void DoublePendulum::draw() const {
     DrawLine(m_pivot.x, m_pivot.y, m_pos.first.x, m_pos.first.y, GRAY);
     DrawLine(m_pos.first.x, m_pos.first.y, m_pos.second.x, m_pos.second.y, GRAY);
-    DrawCircle(m_pos.first.x, m_pos.first.y, m_p1.radius, m_p1.color);
-    DrawCircle(m_pos.second.x, m_pos.second.y, m_p2.radius, m_p2.color);
+    DrawCircle(m_pos.first.x, m_pos.first.y, radius1(), m_p1.color);
+    DrawCircle(m_pos.second.x, m_pos.second.y, radius2(), m_p2.color);
 }
 
 void DoublePendulum::handleMouse(Vector2 mousePos, Vector2 mouseVel) {
-    bool movePendulum1 = CheckCollisionPointCircle(mousePos, m_pos.first, m_p1.radius) && IsMouseButtonDown(MOUSE_LEFT_BUTTON);
-    bool movePendulum2 = CheckCollisionPointCircle(mousePos, m_pos.second, m_p2.radius) && IsMouseButtonDown(MOUSE_LEFT_BUTTON);
+    bool movePendulum1 = CheckCollisionPointCircle(mousePos, m_pos.first, radius1()) && IsMouseButtonDown(MOUSE_LEFT_BUTTON);
+    bool movePendulum2 = CheckCollisionPointCircle(mousePos, m_pos.second, radius2()) && IsMouseButtonDown(MOUSE_LEFT_BUTTON);
 
     if (movePendulum1 && !m_isHeld.second || m_isHeld.first) {
         Vector2 relMousePos { mousePos.x - m_pivot.x, -mousePos.y + m_pivot.y };

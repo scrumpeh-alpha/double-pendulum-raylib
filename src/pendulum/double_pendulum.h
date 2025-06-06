@@ -1,6 +1,7 @@
 #pragma once
 #include "pendulum_state.h"
 #include "raylib.h"
+#include <algorithm>
 #include <utility>
 
 class DoublePendulum {
@@ -27,6 +28,14 @@ class DoublePendulum {
     void update(float dt);
     void draw() const;
     void handleMouse(Vector2 mousePos, Vector2 mouseVel);
+
+    float radius1() const {
+        return std::max(10.0f, 1.5f*m_p1.mass);
+    }
+
+    float radius2() const {
+        return std::max(10.0f, 1.5f*m_p2.mass);
+    }
 
   private:
     StateVector phi(const StateVector& state) const;

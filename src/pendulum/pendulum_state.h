@@ -8,7 +8,7 @@ struct StateVector {
 struct PendulumData {
     float length;
     float mass;
-    float radius;
+    // float radius;
     Color color;
 };
 
