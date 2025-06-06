@@ -13,7 +13,7 @@ UIController::UIController(Vector2 anchor, StateVector& pendulumState, PendulumD
     GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
 }
 
-// UUSAFE?
+// UNSAFE?
 // char* floatToChar(float value, int decimalPlaces) {
 //     const int bufferSize { 32 };
 //     char* buffer = new char[bufferSize];
@@ -23,7 +23,7 @@ UIController::UIController(Vector2 anchor, StateVector& pendulumState, PendulumD
 
 std::string floatToString(float value, int decimalPlaces) {
     std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << value;
+    ss << std::fixed << std::setprecision(decimalPlaces) << value;
     return ss.str();
 }
 
