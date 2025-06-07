@@ -2,56 +2,58 @@
 
 #include "UIController.h"
 #include "pendulum/double_pendulum.h"
-#include "pendulum/pendulum_state.h"
-#include "simulator.h"
 #include "raylib.h"
+#include "settings.h"
+#include "simulator.h"
+
+
+// TODO:
+// Let the simulator take care of initializing, making pendulum
+// Add custom pendulum settings structure (somehow)
+// Generalize it enough so that it is (theoretically) possible to add multiple DPs
 
 int main() {
     SetTraceLogLevel(LOG_DEBUG);
 
-    int screenWidth { 1280 };
-    int screenHeight { 720 };
-    const int targetFPS { 60 };
+    Settings settings {};
+    settings.pendulumState = { 30, 50, 0, 0 };
+    settings.pendulum1Data = { 150, 10, RED };
+    settings.pendulum2Data = { 150, 10, BLUE };
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "Cool Window");
-    SetTargetFPS(targetFPS);
+    InitWindow(settings.screenWidth, settings.screenHeight, "Cool Window");
+    SetTargetFPS(settings.FPS);
 
-    float fixedTimeStep { 1.0f / targetFPS };
-    float simSpeed { 10.0f };
+    float fixedTimeStep { 1.0f / settings.FPS };
 
-    StateVector pendulumState { 30, 50, 0, 0 };
-    PendulumData pendulum1 { 150, 10, RED };
-    PendulumData pendulum2 { 150, 10, BLUE };
-    Vector2 pendulumPivot { screenWidth / 3.0f, screenHeight / 2.0f - 100.0f };
-
-    DoublePendulum doublePendulum { pendulumState, pendulum1, pendulum2, pendulumPivot };
+    // TODO: Let the simulator take care of this?
+    DoublePendulum doublePendulum { settings.pendulumState, settings.pendulum1Data, settings.pendulum2Data, settings.pendulumPivot };
 
     TraceLog(LOG_DEBUG, "Gravity %f m/s^2", doublePendulum.gravity);
     Simulator sim { doublePendulum, fixedTimeStep };
 
-    UIController uiController { Vector2 { 2 * screenWidth / 3.0f, 0 }, pendulumState, pendulum1, pendulum2 };
+    UIController uiController { settings };
 
     float accumulator { 0.0f };
 
     while (!WindowShouldClose()) {
 
-        float deltaTime = GetFrameTime() * simSpeed;
+        float deltaTime = GetFrameTime() * settings.simSpeed;
 
         accumulator += deltaTime;
 
-        // TraceLog(LOG_DEBUG, "FrameTime: %f", GetFrameTime());
         while (accumulator >= fixedTimeStep) {
             sim.updateElements();
             accumulator -= fixedTimeStep;
         }
+
+        uiController.update();
 
         BeginDrawing();
 
         ClearBackground(BLACK);
 
         sim.drawElements();
-
         uiController.drawUIElements();
 
         EndDrawing();

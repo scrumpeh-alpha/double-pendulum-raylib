@@ -2,13 +2,15 @@
 #include "pendulum/double_pendulum.h"
 
 class Simulator {
+  public:
+    float gravity { 9.8f };
+
   private:
     DoublePendulum& m_dp;
     float m_timeStep {};
-    float m_gravity {};
 
   public:
-    Simulator(DoublePendulum& dp, float timeStep = 0.1, float gravity = 9.8);
+    Simulator(DoublePendulum& dp, float timeStep = 0.1);
     // ~Simulator();
 
     void updateElements() const;

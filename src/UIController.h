@@ -1,19 +1,22 @@
 #include "pendulum/pendulum_state.h"
 #include "raygui.h"
+#include "settings.h"
 
 class UIController {
   private:
+    // StateVector& m_pendulumState;
+    // PendulumData& m_pendulum1;
+    // PendulumData& m_pendulum2;
+    //
+    // int m_screenWidth, m_screenHeight;
     Vector2 m_anchor;
-    StateVector& m_pendulumState;
-    PendulumData& m_pendulum1;
-    PendulumData& m_pendulum2;
-
-    int m_screenWidth, m_screenHeight;
+    Settings& m_settings;
     Rectangle m_margin { 0, 20.0f, 20.0f, 20.0f };
-    Rectangle m_mainBounds {};
+    Rectangle m_mainBounds;
 
   public:
-    UIController(Vector2 anchor, StateVector& pendulumState, PendulumData& pendulum1, PendulumData& pendulum2);
+    UIController(Settings& settings);
 
+    void update();
     void drawUIElements();
 };

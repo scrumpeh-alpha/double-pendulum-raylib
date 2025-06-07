@@ -2,8 +2,8 @@
 #include "pendulum/double_pendulum.h"
 #include "raylib.h"
 
-Simulator::Simulator(DoublePendulum& dp, float timeStep, float gravity)
-    : m_timeStep { timeStep }, m_gravity { gravity }, m_dp { dp } {
+Simulator::Simulator(DoublePendulum& dp, float timeStep)
+    : m_timeStep { timeStep }, m_dp { dp } {
 }
 
 void Simulator::updateElements() const {
