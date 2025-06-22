@@ -11,7 +11,7 @@ StateVector DoublePendulum::phi(const StateVector& state) const {
     float m2 = m_p2.mass;
     float l1 = m_p1.length;
     float l2 = m_p2.length;
-    float g = gravity;
+    float g = m_gravity;
     float dtheta = state.theta1 - state.theta2;
 
     StateVector newState { };
@@ -35,11 +35,14 @@ StateVector DoublePendulum::rk4Step(const StateVector& state, float dt) const {
 }
 
 void DoublePendulum::update(float dt) {
-    if (std::isnan(m_stateVector.theta1))
+    if (std::isnan(m_stateVector.theta1)) {
         m_stateVector.theta1 = 0;
-    if (std::isnan(m_stateVector.theta2))
+        TraceLog(LOG_WARNING, "Overflow with theta1, resetting");
+    }
+    if (std::isnan(m_stateVector.theta2)) {
         m_stateVector.theta2 = 0;
-    // TraceLog(LOG_WARNING, std::to_string(m_stateVector.omega2).data());
+        TraceLog(LOG_WARNING, "Overflow with theta2, resetting");
+    }
     m_stateVector = rk4Step(m_stateVector, dt);
 
     m_pos.first.x = m_pivot.x + m_p1.length * sin(m_stateVector.theta1);

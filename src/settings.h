@@ -6,6 +6,7 @@ struct Settings {
     int screenHeight { 720 };
     inline static constexpr int FPS { 60 };
 
+    float gravity { 9.81f };
     StateVector pendulumState {};
     PendulumData pendulum1Data {};
     PendulumData pendulum2Data {};

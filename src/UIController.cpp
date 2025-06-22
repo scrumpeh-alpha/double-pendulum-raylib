@@ -68,6 +68,9 @@ void UIController::drawUIElements() {
     GuiSliderBar({ p2ControlBounds.x + 100, p2ControlBounds.y + 2 * verticalGap + 25, p2ControlBounds.width - 200, 25 }, "Mass: ", valueString.c_str(), &m_settings.pendulum2Data.mass, 1, 50);
 
     // For simulation parameters
-    // Rectangle simControlBounds { p2ControlBounds.x, p2ControlBounds.height + verticalGap, p2ControlBounds.width, p2ControlBounds.height };
+    Rectangle simControlBounds { p2ControlBounds.x, p2ControlBounds.y + p2ControlBounds.height + verticalGap, p1ControlBounds.width, p1ControlBounds.height };
+    GuiLabel({ simControlBounds.x, simControlBounds.y, simControlBounds.width, 100.0f }, "Simulation");
 
+    valueString = floatToString(m_settings.gravity, 2);
+    GuiSliderBar({ simControlBounds.x + 100, simControlBounds.y + verticalGap + 25, simControlBounds.width - 200, 25 }, "Gravity: ", valueString.c_str(), &m_settings.gravity, 0, 20);
 }

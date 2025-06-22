@@ -27,9 +27,9 @@ int main() {
     float fixedTimeStep { 1.0f / settings.FPS };
 
     // TODO: Let the simulator take care of this?
-    DoublePendulum doublePendulum { settings.pendulumState, settings.pendulum1Data, settings.pendulum2Data, settings.pendulumPivot };
+    DoublePendulum doublePendulum { settings.pendulumState, settings.pendulum1Data, settings.pendulum2Data, settings.pendulumPivot, settings.gravity };
 
-    TraceLog(LOG_DEBUG, "Gravity %f m/s^2", doublePendulum.gravity);
+    TraceLog(LOG_DEBUG, "Gravity %f m/s^2", settings.gravity);
     Simulator sim { doublePendulum, fixedTimeStep };
 
     UIController uiController { settings };
